@@ -4,20 +4,19 @@ document.addEventListener('DOMContentLoaded', () => {
     const taskInput = document.getElementById('task-input');
     const taskList = document.getElementById('task-list');
 
-    // Load tasks from localStorage on page load
+    // Load tasks from localStorage
     function loadTasks() {
         const storedTasks = JSON.parse(localStorage.getItem('tasks') || '[]');
-        storedTasks.forEach(taskText => addTask(taskText, false)); // false --> don’t save again to localStorage
+        storedTasks.forEach(taskText => addTask(taskText, false));
     }
 
-    // Save array of tasks to localStorage
+    // Save updated array to localStorage
     function saveTasksToLocalStorage(tasks) {
         localStorage.setItem('tasks', JSON.stringify(tasks));
     }
 
-    // Add task to DOM (and optionally to localStorage)
+    // Add a task to DOM (and optionally save to localStorage)
     function addTask(taskText, save = true) {
-        // When triggered by button/Enter key, get the input field value
         if (save) {
             taskText = taskInput.value.trim();
             if (taskText === '') {
@@ -26,20 +25,15 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
 
-        // Create li element
         const listItem = document.createElement('li');
         listItem.textContent = taskText;
 
-        // Create remove button
         const removeBtn = document.createElement('button');
         removeBtn.textContent = 'Remove';
-        removeBtn.className = 'remove-btn';
+        removeBtn.className = 'remove-btn';  // using className, not classList.add
 
-        // Remove task from both DOM and localStorage
         removeBtn.onclick = function () {
             taskList.removeChild(listItem);
-
-            // Remove task from localStorage array
             const storedTasks = JSON.parse(localStorage.getItem('tasks') || '[]');
             const updatedTasks = storedTasks.filter(task => task !== taskText);
             saveTasksToLocalStorage(updatedTasks);
@@ -48,7 +42,6 @@ document.addEventListener('DOMContentLoaded', () => {
         listItem.appendChild(removeBtn);
         taskList.appendChild(listItem);
 
-        // Save to localStorage if triggered by user-add action
         if (save) {
             const storedTasks = JSON.parse(localStorage.getItem('tasks') || '[]');
             storedTasks.push(taskText);
@@ -57,14 +50,13 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Add listeners
     addButton.addEventListener('click', () => addTask());
-    taskInput.addEventListener('keypress', event => {
-        if (event.key === 'Enter') {
+    taskInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
             addTask();
         }
     });
 
-    // Initial load
+    // initialize
     loadTasks();
 });
