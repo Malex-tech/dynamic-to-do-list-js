@@ -1,5 +1,3 @@
-// script.js
-
 // Run JavaScript ONLY after the HTML is fully loaded
 document.addEventListener('DOMContentLoaded', () => {
     // Select DOM elements
@@ -25,7 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Create Remove button
         const removeBtn = document.createElement('button');
         removeBtn.textContent = 'Remove';
-        removeBtn.className = 'remove-btn';
+        removeBtn.className = 'remove-btn'; // using className (not classList.add)
 
         // Remove the list item when the button is clicked
         removeBtn.onclick = function () {
@@ -50,6 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Trigger once on page load (allows any default tasks in future)
-    addTask();
+    // OPTIONAL: trigger once on page load *only if you have a pre-filled taskInput*
+    // If not needed, you can comment this next line out safely.
+    // addTask();
 });
